@@ -1,0 +1,170 @@
+:root {
+  --ivory: #fffaf7;
+  --ink: #2a1a2c;
+  --muted: #7b6a78;
+  --line: #eadbdf;
+  --rose: #d63a62;
+  --love: #e0243f;              /* the red heart */
+  --tone: #d63a62;              /* changes with the score (set by JavaScript) */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 15%, rgba(214, 58, 98, 0.28) 0, transparent 42%),
+    radial-gradient(circle at 80% 85%, rgba(120, 70, 190, 0.30) 0, transparent 45%),
+    linear-gradient(135deg, #150f26 0%, #2a1240 55%, #43163b 100%);
+}
+
+/* ---------- Card (smaller) ---------- */
+.card {
+  width: min(540px, 100%);
+  background: var(--ivory);
+  border-radius: 20px;
+  padding: 26px 32px 20px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+h1 {
+  margin: 0 0 6px;
+  text-align: center;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 2.4rem;
+  line-height: 1.1;
+}
+.sub { margin: 0 0 18px; text-align: center; font-size: 1rem; line-height: 1.45; color: var(--muted); }
+
+/* ---------- Inputs ---------- */
+.names {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: end;
+}
+.love {
+  padding-bottom: 9px;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--love);
+  animation: beat 1.6s ease-in-out infinite;
+}
+label { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; font-weight: 600; }
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus {
+  outline: none;
+  border-color: var(--rose);
+  box-shadow: 0 0 0 4px rgba(214, 58, 98, 0.16);
+}
+input.invalid { border-color: #c0283f; animation: shake 0.35s; }
+
+#error { min-height: 1.2rem; margin: 8px 0; color: #b3223a; font-size: 0.85rem; }
+
+/* ---------- Buttons ---------- */
+.primary {
+  width: 100%;
+  padding: 14px;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #e0475f, #c2185b);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(194, 24, 91, 0.3);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.primary:hover { transform: translateY(-1px); box-shadow: 0 9px 20px rgba(194, 24, 91, 0.38); }
+.primary:active { transform: translateY(1px); }
+.primary:disabled { opacity: 0.75; cursor: progress; transform: none; }
+.primary:focus-visible, .link:focus-visible { outline: 3px solid #f2b544; outline-offset: 2px; }
+
+.link {
+  margin-top: 4px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---------- Result ---------- */
+.result {
+  margin-top: 16px;
+  padding-top: 14px;
+  text-align: center;
+  border-top: 1px dashed var(--line);
+  animation: rise 0.5s ease-out;
+}
+.result[hidden] { display: none; }
+
+.pair { margin: 0 0 2px; font-family: Fraunces, Georgia, serif; font-size: 1.4rem; }
+.pair-heart { margin: 0 10px; color: var(--love); }
+
+.gauge svg { width: 150px; height: auto; }
+#fill { fill: var(--tone); transition: fill 0.5s; }
+.outline { fill: rgba(42, 26, 44, 0.05); stroke: var(--tone); stroke-width: 3; transition: stroke 0.5s; }
+.gauge.beat svg { animation: beat 0.9s ease-in-out 3; }
+
+.percent {
+  margin: 2px 0 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--tone);
+  transition: color 0.5s;
+}
+h2 { margin: 6px 0 4px; font-family: Fraunces, Georgia, serif; font-size: 1.4rem; }
+#verdictText { margin: 0; font-size: 0.98rem; line-height: 1.5; color: var(--muted); }
+
+/* ---------- Floating hearts ---------- */
+#hearts { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+.float {
+  position: absolute;
+  bottom: -40px;
+  color: var(--tone);
+  animation: floatUp var(--d) ease-in forwards;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- Animations ---------- */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+@keyframes beat { 50% { transform: scale(1.15); } }
+@keyframes floatUp { to { transform: translateY(-110vh) rotate(var(--r)); opacity: 0; } }
+
+@media (max-width: 480px) {
+  .card { padding: 24px 18px 18px; }
+  .names { grid-template-columns: 1fr; }
+  .love { text-align: center; padding: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Match Maker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Fraunces:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <h1>Heartbeat Match</h1> 
+    <p class="sub">Enter two names and discover how strong the love between them is.</p>
+
+    <!-- Two input boxes + a button -->
+    <form id="form" novalidate>
+      <div class="names">
+        <label>
+          <input id="name1" type="text" maxlength="30" autocomplete="off" placeholder="Your name ">
+        </label>
+        <span class="love" aria-hidden="true">♥</span>
+        <label>
+          <input id="name2" type="text" maxlength="30" autocomplete="off" placeholder="Your crush's name ">
+        </label>
+      </div>
+
+      <!-- Validation message appears here -->
+      <p id="error" role="alert"></p>
+
+      <button id="matchBtn" class="primary" type="submit">Find match</button>
+    </form>
+
+    <!-- Display area for the result (hidden until a match is made) -->
+    <section id="result" class="result" hidden>
+      <p id="pair" class="pair"></p>
+
+      <div class="gauge">
+        <svg viewBox="0 0 100 90" aria-hidden="true">
+          <defs>
+            <clipPath id="heartClip">
+              <path d="M50 85 C10 55 0 30 15 14 C28 0 46 6 50 20 C54 6 72 0 85 14 C100 30 90 55 50 85 Z"/>
+            </clipPath>
+          </defs>
+          <g clip-path="url(#heartClip)">
+            <rect id="fill" x="0" y="90" width="100" height="90"/>
+          </g>
+          <path class="outline" d="M50 85 C10 55 0 30 15 14 C28 0 46 6 50 20 C54 6 72 0 85 14 C100 30 90 55 50 85 Z"/>
+        </svg>
+      </div>
+
+      <p class="percent"><span id="percent">0</span>%</p>
+      <h2 id="verdict"></h2>
+      <p id="verdictText"></p>
+      <button id="resetBtn" class="link" type="button">Try another pair</button>
+    </section>
+
+    <p id="srResult" class="sr-only" aria-live="polite"></p>
+  </main>
+
+  <!-- Floating hearts are added here by JavaScript -->
+  <div id="hearts" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
